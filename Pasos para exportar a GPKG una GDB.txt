@@ -1,0 +1,20 @@
+#En OsGeoW4
+#Para extraer las litas de los grupos (group)
+
+for /f "tokens=2 delims=: " %a in ('ogrinfo "D:\DESARROLLO\migracion de BD\BDP\GDB\BDP.gdb" ^| findstr "^Group"') do @echo %a
+
+#Crear la carpeta
+
+mkdir "D:\DESARROLLO\migracion de BD\BDP\exportacion de GDB\prueba" 2>nul
+
+#Exportar la primera capa creando el GPKG
+
+ogr2ogr -f GPKG "D:\DESARROLLO\migracion de BD\BDP\exportacion de GDB\prueba\BA_GW84.gpkg" "D:\DESARROLLO\migracion de BD\BDP\GDB\BDP.gdb" DP_PO_PERU
+
+#para exportar a una capa a la GKPG
+
+ogr2ogr -f GPKG -update -append "D:\DESARROLLO\migracion de BD\BDP\exportacion de GDB\prueba\BA_GW84.gpkg" "D:\DESARROLLO\migracion de BD\BDP\GDB\BDP.gdb" DP_PO_OCEANO
+
+#Para exportar a posgresql (base de datos en postgis), desde una GDB
+
+ogr2ogr -f "PostgreSQL" PG:"host=localhost user=postgres dbname=your_db" input.gdb
